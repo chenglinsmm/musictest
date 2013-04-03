@@ -118,8 +118,11 @@
         //
         function playAudio2 (src){
             stopAudio();
-            setTimeout (src,10000);
-            playAudio(src);
+            setTimeout ((function(src){
+                return function(){
+                    playAudio(src);
+                };
+            })(src),10000);
         }
         function pauseAudio() {
             if (my_media) {
