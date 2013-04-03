@@ -135,9 +135,12 @@
             if (my_media) {
                 my_media.stop();
                 console.log("stopAudio");
+                clearInterval(mediaTimer);
+                mediaTimer = null;
+            }else {
+                console.log("else stopAudio");
             }
-            clearInterval(mediaTimer);
-            mediaTimer = null;
+
         }
 
         function ForwardAudio(src) {
