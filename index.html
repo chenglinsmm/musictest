@@ -82,7 +82,7 @@
         function playAudio(src) {
             // Create Media object from src
             my_media = new Media(src, onSuccess, onError);
-            console.log();
+            console.log("create_music");
             // Play audio
             my_media.play();
             console.log("playAudio");
@@ -114,17 +114,6 @@
                 }, 10);
             }
         }
-        function playAudio2(src) {
-            if (my_media) {
-                my_media.stop();
-                console.log("stopAudio");
-                playAudio(src)
-            } else {
-                console.log("else stopAudio");
-                playAudio(src)
-            }
-
-        }
         // Pause audio
         // 
         function pauseAudio() {
@@ -144,11 +133,9 @@
             if (my_media) {
                 my_media.stop();
                 console.log("stopAudio");
-                clearInterval(mediaTimer);
-                mediaTimer = null;
-            } else {
-                console.log("else stopAudio");
             }
+            clearInterval(mediaTimer);
+            mediaTimer = null;
 
         }
 
@@ -191,7 +178,7 @@
     </script>
 </head>
 <body>
-<a href="#" class="btn large" onclick="playAudio2('/android_asset/www/01.mp3');">Play Audio</a>
+<a href="#" class="btn large" onclick="playAudio('/android_asset/www/01.mp3');">Play Audio</a>
 <a href="#" class="btn large" onclick="pauseAudio();">Pause Playing Audio</a>
 <a href="#" class="btn large" onclick="goOnAudio();">GoOn Playing Audio</a>
 <a href="#" class="btn large" onclick="ForwardAudio('/android_asset/www/01.mp3');">Forward Audio</a>
