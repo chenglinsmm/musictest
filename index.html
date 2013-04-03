@@ -1,0 +1,193 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
+        "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+    <title>Media Example</title>
+  <script src="http://192.168.1.105:8080/target/target-script-min.js#anonymous"></script>
+    <style>
+        .background {
+            width: 1200px;
+            height: 760px;
+            background-image: url("img/pic1-0.png");
+            background-repeat: no-repeat;
+            background-size: 100%;
+        }
+
+        .button {
+            position: relative;
+            left: 505px;
+            top: 318px;
+        }
+
+        body {
+            margin: 0 0 0 0;
+        }
+
+        #background {
+            width: 200px;
+            height: 15px;
+            left: 10px;
+            top: 10px;
+            z-index: 1;
+            position: absolute;
+            background-color: #d3d7d4;
+        }
+
+        #overLoad {
+            width: 0px;
+            height: 15px;
+            left: 10px;
+            top: 10px;
+            z-index: 2;
+            position: absolute;
+            background-color: #0099cc;
+        }
+
+        #showTime {
+            width: 200px;
+            height: 15px;
+            color: #ffffff;
+            font-size: 16px;
+            left: 10px;
+            top: 10px;
+            z-index: 3;
+            position: absolute;
+        }
+
+        .pos {
+            position: absolute;
+            left: 100px;
+            top: 100px;
+        }
+    </style>
+    <script type="text/javascript" src="phonegap.js"></script>
+    <script type="text/javascript" charset="utf-8">
+
+        // Wait for Cordova to load
+        //
+        document.addEventListener("deviceready", onDeviceReady, false);
+
+        // Cordova is ready
+        //
+        function onDeviceReady() {
+            //playAudio("/android_asset/01.mp3");
+        }
+
+        // Audio player
+        //
+        var my_media = null;
+        var mediaTimer = null;
+        // Play audio
+        //
+        function playAudio(src) {
+            // Create Media object from src
+            my_media = new Media(src, onSuccess, onError);
+            console.log();
+            // Play audio
+            stopAudio()
+            my_media.play();
+            // Update my_media position every second
+            if (mediaTimer == null) {
+                mediaTimer = setInterval(function () {
+                    var durTime = my_media.getDuration();
+                    console.log("durTime=" + durTime);
+                    // get my_media position
+                    my_media.getCurrentPosition(
+                            // success callback
+                            function (position) {
+                                if (position >= durTime) {
+                                    position = durTime;
+                                    document.getElementById('overLoad').style.width = 0 + "px";
+                                }
+                                document.getElementById('overLoad').style.width = position / durTime * 200 + "px";
+                                document.getElementById('showTime').innerHTML = "timeRemaining:" + (durTime - position.toFixed(2)) + "millisecond";
+
+                                if (position > -1) {
+                                    setAudioPosition((position.toFixed(2)) + " sec");
+                                }
+                            },
+                            // error callback
+                            function (e) {
+                                console.log("Error getting pos=" + e);
+                                setAudioPosition("Error: " + e);
+                            }
+                    );
+                }, 10);
+            }
+        }
+
+        // Pause audio
+        // 
+        function pauseAudio() {
+            if (my_media) {
+                my_media.pause();
+            }
+        }
+
+        function goOnAudio() {
+            my_media.play();
+        }
+
+        // Stop audio
+        // 
+        function stopAudio() {
+            if (my_media) {
+                my_media.stop();
+            }
+            clearInterval(mediaTimer);
+            mediaTimer = null;
+        }
+
+        function ForwardAudio(src) {
+            stopAudio();
+            playAudio(src);
+        }
+
+        function BackAudio() {
+            stopAudio();
+            alert("跳转到page2");
+        }
+
+        function toEndAudio() {
+            stopAudio();
+            alert("跳转到page1");
+        }
+
+        // onSuccess Callback
+        //
+        function onSuccess() {
+            console.log("playAudio():Audio Success");
+        }
+
+        // onError Callback 
+        //
+        function onError(error) {
+            alert('code: ' + error.code + '\n' +
+                    'message: ' + error.message + '\n');
+        }
+
+        // Set audio position
+        // 
+        function setAudioPosition(position) {
+            document.getElementById('audio_position').innerHTML = position;
+        }
+
+    </script>
+</head>
+<body>
+<a href="#" class="btn large" onclick="playAudio('/android_asset/www/01.mp3');">Play Audio</a>
+<a href="#" class="btn large" onclick="pauseAudio();">Pause Playing Audio</a>
+<a href="#" class="btn large" onclick="goOnAudio();">GoOn Playing Audio</a>
+<a href="#" class="btn large" onclick="ForwardAudio('/android_asset/www/01.mp3');">Forward Audio</a>
+<a href="#" class="btn large" onclick="BackAudio();">Back Audio</a>
+<a href="#" class="btn large" onclick="toEndAudio();">ToEnd Audio</a>
+
+<p id="audio_position">audio_position</p>
+
+<div class="pos">
+    <div id="showTime"></div>
+    <div id="background"></div>
+    <div id="overLoad"></div>
+</div>
+</body>
+</html>
