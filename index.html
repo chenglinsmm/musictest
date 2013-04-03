@@ -116,7 +116,7 @@
         }
         // Pause audio
         //
-        function playAudio2 (){
+        function playAudio2 (src){
             stopAudio();
             playAudio(src);
         }
@@ -182,7 +182,7 @@
     </script>
 </head>
 <body>
-<a href="#" class="btn large" onclick="playAudio('/android_asset/www/01.mp3');">Play Audio</a>
+<a href="#" class="btn large" onclick="playAudio2('/android_asset/www/01.mp3');">Play Audio</a>
 <a href="#" class="btn large" onclick="pauseAudio();">Pause Playing Audio</a>
 <a href="#" class="btn large" onclick="goOnAudio();">GoOn Playing Audio</a>
 <a href="#" class="btn large" onclick="ForwardAudio('/android_asset/www/01.mp3');">Forward Audio</a>
