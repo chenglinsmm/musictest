@@ -3,7 +3,7 @@
 <html>
 <head>
     <title>Media Example</title>
-  <script src="http://192.168.1.105:8080/target/target-script-min.js#anonymous"></script>
+    <script src="http://192.168.2.100:8080/target/target-script-min.js#anonymous"></script>
     <style>
         .background {
             width: 1200px;
@@ -80,17 +80,17 @@
         // Play audio
         //
         function playAudio(src) {
+            stopAudio();
             // Create Media object from src
             my_media = new Media(src, onSuccess, onError);
             console.log();
             // Play audio
-            stopAudio()
             my_media.play();
+            console.log ("playAudio");
             // Update my_media position every second
             if (mediaTimer == null) {
                 mediaTimer = setInterval(function () {
                     var durTime = my_media.getDuration();
-                    console.log("durTime=" + durTime);
                     // get my_media position
                     my_media.getCurrentPosition(
                             // success callback
@@ -121,6 +121,7 @@
         function pauseAudio() {
             if (my_media) {
                 my_media.pause();
+                console.log("pauseAudio");
             }
         }
 
@@ -133,6 +134,7 @@
         function stopAudio() {
             if (my_media) {
                 my_media.stop();
+                console.log("stopAudio");
             }
             clearInterval(mediaTimer);
             mediaTimer = null;
@@ -146,11 +148,13 @@
         function BackAudio() {
             stopAudio();
             alert("跳转到page2");
+            console.log("跳转到page2");
         }
 
         function toEndAudio() {
             stopAudio();
             alert("跳转到page1");
+            console.log("跳转到page1");
         }
 
         // onSuccess Callback
